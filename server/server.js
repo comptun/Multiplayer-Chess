@@ -42,7 +42,7 @@ const io = require('socket.io')({
       client.number = 1;
       client.emit('init', 1);
       
-      startGameInterval(roomName);
+      //startGameInterval(roomName);
     }
   
     function handleNewGame() {
@@ -66,14 +66,14 @@ const io = require('socket.io')({
       state[roomName].lastAction.move = mov;
       if (mov != "NULL") {
         state[roomName].lastAction.colour = !state[roomName].lastAction.colour;
+        emitGameState(roomName, state[roomName])
       }
-      emitGameState(roomName, state[roomName])
     }
   });
   
   function startGameInterval(roomName) {
     const intervalId = setInterval(() => {
-      gameLoop(state[roomName]);
+      //gameLoop(state[roomName]);
       //emitGameState(roomName, state[roomName])
     }, 1000 / 60);
   }

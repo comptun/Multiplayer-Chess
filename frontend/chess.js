@@ -41,10 +41,10 @@ function paintChessboard(state)
 }
 
 function handleGameState(gameState) {
-        gameState = JSON.parse(gameState);
-        if (gameState.lastAction.move != "NULL" && gameState.lastAction.colour != playerColour) {
-            console.log(gameState.lastAction.move)
-        }
+    gameState = JSON.parse(gameState);
+    if (gameState.lastAction.move != "NULL") {
+        console.log(gameState.lastAction.move)
+    }
     socket.emit("movePiece", "NULL");
 }
 
@@ -76,5 +76,3 @@ function init()
     canvas.width = canvas.height = 600;
     paintChessboard();
 }
-
-init();
