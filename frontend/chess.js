@@ -1,7 +1,7 @@
 const BLACK_COLOUR = "#81C600";
 const WHITE_COLOUR = "#DEFF9F";
 
-const socket = io('https://snake-project-game.herokuapp.com/');
+const socket = io('https://chess-online-project-app.herokuapp.com/');
 
 socket.on("gameState", handleGameState);
 socket.on("init", handleInit);
@@ -21,6 +21,7 @@ let canvas, ctx;
 let playerColour;
 
 function handleInit(number) {
+    console.log("You are player 1111111");
     playerColour = number;
 }
 
