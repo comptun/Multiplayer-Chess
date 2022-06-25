@@ -61,7 +61,6 @@ function joinGame() {
 
 function move()
 {
-    console.log("moved");
     const mov = moveInput.value;
     socket.emit("movePiece", mov);
 }

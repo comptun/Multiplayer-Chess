@@ -64,7 +64,9 @@ const io = require('socket.io')({
       }
       
       state[roomName].lastAction.move = mov;
-      state[roomName].lastAction.colour = !state[roomName].lastAction.colour;
+      if (mov != "NULL") {
+        state[roomName].lastAction.colour = !state[roomName].lastAction.colour;
+      }
       emitGameState(roomName, state[roomName])
     }
   });
