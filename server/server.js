@@ -14,7 +14,6 @@ const io = require('socket.io')({
     client.on('movePiece', handleMove);
     client.on('newGame', handleNewGame);
     client.on('joinGame', handleJoinGame);
-    client.on('clearMove', handleClearMove);
   
     function handleJoinGame(roomName) {
       const room = io.sockets.adapter.rooms[roomName];
@@ -66,18 +65,14 @@ const io = require('socket.io')({
       
       state[roomName].lastAction.move = mov;
       state[roomName].lastAction.colour = !state[roomName].lastAction.colour;
-    }
-
-    function handleClearMove() {  
-      state[roomName].lastAction.move = "NULL";
-      state[roomName].lastAction.colour = !state[roomName].lastAction.colour;
+      emitGameState(roomName, state[roomName])
     }
   });
   
   function startGameInterval(roomName) {
     const intervalId = setInterval(() => {
       gameLoop(state[roomName]);
-      emitGameState(roomName, state[roomName])
+      //emitGameState(roomName, state[roomName])
     }, 1000 / 60);
   }
   

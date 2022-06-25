@@ -5,6 +5,7 @@ const socket = io('https://chess-online-project-app.herokuapp.com/');
 
 socket.on("gameState", handleGameState);
 socket.on("init", handleInit);
+socket.on("gameCode", handleGameCode);
 
 const moveButton = document.getElementById("moveButton");
 const moveInput = document.getElementById("moveInput");
@@ -21,7 +22,7 @@ let canvas, ctx;
 let playerColour;
 
 function handleInit(number) {
-    console.log("You are player 1111111");
+    console.log("You are player ", number);
     playerColour = number;
 }
 
@@ -40,11 +41,11 @@ function paintChessboard(state)
 }
 
 function handleGameState(gameState) {
-    gameState = JSON.parse(gameState);
-    if (gameState.lastAction.move != "NULL") {
-        console.log(gameState.lastAction.move)
-    }
-    socket.emit("clearMove");
+        gameState = JSON.parse(gameState);
+        if (gameState.lastAction.move != "NULL" && gameState.lastAction.colour != playerColour) {
+            console.log(gameState.lastAction.move)
+        }
+    socket.emit("movePiece", "NULL");
 }
 
 function newGame() {
@@ -63,6 +64,10 @@ function move()
     console.log("moved");
     const mov = moveInput.value;
     socket.emit("movePiece", mov);
+}
+
+function handleGameCode(gameCode) {
+    gameCodeDisplay.innerText = gameCode;
 }
 
 function init()
