@@ -42,7 +42,7 @@ function paintChessboard(state)
 
 function handleGameState(gameState) {
     gameState = JSON.parse(gameState);
-    if (gameState.lastAction.move != "NULL") {
+    if (gameState.lastAction.move != "NULL" && gameState.lastAction.colour != playerColour) {
         console.log(gameState.lastAction.move)
     }
     socket.emit("nullMove");

@@ -65,7 +65,7 @@ const io = require('socket.io')({
       }
       
       state[roomName].lastAction.move = mov;
-      state[roomName].lastAction.colour = !state[roomName].lastAction.colour;
+      state[roomName].lastAction.colour = client.number;
       emitGameState(roomName, state[roomName])
     }
 
