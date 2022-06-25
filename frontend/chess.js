@@ -45,7 +45,7 @@ function handleGameState(gameState) {
     if (gameState.lastAction.move != "NULL") {
         console.log(gameState.lastAction.move)
     }
-    socket.emit("movePiece", "NULL");
+    socket.emit("nullMove");
 }
 
 function newGame() {
