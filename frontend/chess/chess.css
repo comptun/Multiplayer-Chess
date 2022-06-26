@@ -1,0 +1,52 @@
+.black-square 
+{
+    background-color: #b58863;
+}
+.white-square 
+{
+    background-color: #f0d9b5;
+}
+.square
+{
+    height: 75px;
+    width: 75px;
+    display: inline-block;
+}
+.board
+{
+    width: 600px;
+    height: 600px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    position: absolute;
+    left: 0; 
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+.piece
+{
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 75px;
+    width: 75px;
+}
+.pieces
+{
+    width: 600px;
+    height: 600px;
+    position: absolute;
+    left: 0; 
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+.game-container
+{
+    width:auto;
+    height:auto;
+}

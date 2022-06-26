@@ -7,43 +7,46 @@ socket.on("gameState", handleGameState);
 socket.on("init", handleInit);
 socket.on("gameCode", handleGameCode);
 
-const moveButton = document.getElementById("moveButton");
-const moveInput = document.getElementById("moveInput");
 const newGameBtn = document.getElementById('newGameButton');
 const joinGameBtn = document.getElementById('joinGameButton');
 const gameCodeInput = document.getElementById('gameCodeInput');
 const gameCodeDisplay = document.getElementById('gameCodeDisplay');
 
+const wk = document.getElementById("wk");
+
+let playerColour;
+let mouseX, mouseY
+
 newGameBtn.addEventListener('click', newGame);
 joinGameBtn.addEventListener('click', joinGame);
-moveButton.addEventListener("click", move);
+wk.addEventListener('mouseup', mouseDown)
 
-let canvas, ctx;
-let playerColour;
+$(function() {  
+    $( "#wk" ).draggable();  
+}); 
+
+function mouseDown()
+{
+    wk.style.left = (Math.ceil((parseInt(wk.style.left) + 37) / 75) * 75 - 75).toString().concat("px");
+    wk.style.top = (Math.ceil((parseInt(wk.style.top) + 37) / 75) * 75 - 75).toString().concat("px");
+    socket.emit("movePiece", [wk.style.left, wk.style.top]);
+}
 
 function handleInit(number) {
     console.log("You are player ", number);
     playerColour = number;
 }
 
-function paintChessboard(state)
+function paintChessboard()
 {
-    const sizeX = (canvas.width / 8), sizeY = (canvas.height / 8);
-    for (let i = 0; i < 8; ++i) {
-        for (let j = 0; j < 8; ++j) {
-            ctx.fillStyle = BLACK_COLOUR;
-            if (i % 2 == j % 2) {
-                ctx.fillStyle = WHITE_COLOUR;
-            }
-            ctx.fillRect(i * sizeX, j * sizeY, (i + 1) * sizeX, (j + 1) * sizeY);
-        }
-    }
+    
 }
 
 function handleGameState(gameState) {
     gameState = JSON.parse(gameState);
     if (gameState.lastAction.move != "NULL" && gameState.lastAction.colour != playerColour) {
-        console.log(gameState.lastAction.move)
+        wk.style.left = gameState.lastAction.move[0];
+        wk.style.top = gameState.lastAction.move[1];
     }
     socket.emit("nullMove");
 }
@@ -71,8 +74,8 @@ function handleGameCode(gameCode) {
 
 function init()
 {
-    canvas = document.getElementById("canvas");
-    ctx = canvas.getContext("2d");
-    canvas.width = canvas.height = 600;
-    paintChessboard();
+   
+    
 }
+
+init();
