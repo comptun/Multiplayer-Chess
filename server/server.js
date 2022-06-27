@@ -58,14 +58,13 @@ const io = require('socket.io')({
       client.emit('init', 0);
     }
   
-    function handleMove(mov) {
+    function handleMove(board) {
       const roomName = clientRooms[client.id];
       if (!roomName) {
         return;
       }
       
-      state[roomName].lastAction.move = mov;
-      state[roomName].lastAction.colour = client.number;
+      state[roomName].board = board;
       emitGameState(roomName, state[roomName])
     }
 

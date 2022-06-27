@@ -31,6 +31,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+    position: absolute;
     height: 75px;
     width: 75px;
 }
@@ -44,6 +45,9 @@
     top: 0;
     bottom: 0;
     margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
 }
 .game-container
 {
