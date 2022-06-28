@@ -76,7 +76,6 @@ function paintChessboard()
             if (board[i][j] != 0) {
                 console.log(board[i][j]);
                 let piece = document.getElementById(board[i][j]);
-                piece.style.display = "none;";
                 piece.style.left = 75 * j;
                 piece.style.top = 75 * i;
             }

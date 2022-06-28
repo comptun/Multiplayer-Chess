@@ -43,7 +43,7 @@ const io = require('socket.io')({
       client.number = 1;
       client.emit('init', 1);
       
-      //startGameInterval(roomName);
+      emitGameState(roomName, state[roomName]);
     }
   
     function handleNewGame() {
@@ -56,6 +56,7 @@ const io = require('socket.io')({
       client.join(roomName);
       client.number = 0;
       client.emit('init', 0);
+      emitGameState(roomName, state[roomName]);
     }
   
     function handleMove(board) {
