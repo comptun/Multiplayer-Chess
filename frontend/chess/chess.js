@@ -22,7 +22,7 @@ newGameBtn.addEventListener('click', newGame);
 joinGameBtn.addEventListener('click', joinGame);
 
 let board = [
-    ['br1','bn1','bb1','bq1','bk1','bb2','ibn2','br2'],
+    ['br1','bn1','bb1','bq1','bk1','bb2','bn2','br2'],
     ['bp1','bp2','bp3','bp4','bp5','bp6','bp7','bp8'],
     [0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0],
@@ -93,7 +93,7 @@ function handleGameState(gameState) {
 function newGame() {
     socket.emit('newGame');
     board = [
-        ['br1','bn1','bb1','bq1','bk1','bb2','ibn2','br2'],
+        ['br1','bn1','bb1','bq1','bk1','bb2','bn2','br2'],
         ['bp1','bp2','bp3','bp4','bp5','bp6','bp7','bp8'],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
