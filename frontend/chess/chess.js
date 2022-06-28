@@ -22,7 +22,7 @@ newGameBtn.addEventListener('click', newGame);
 joinGameBtn.addEventListener('click', joinGame);
 
 let board = [
-    ['br1','bn1','bb1','bq1','bk1','bb2','bn2','br2'],
+    ['br1','bn1','bb1','bq1','bk1','bb2','ibn2','br2'],
     ['bp1','bp2','bp3','bp4','bp5','bp6','bp7','bp8'],
     [0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0],
@@ -70,11 +70,13 @@ function handleInit(number) {
 
 function paintChessboard()
 {
+
     for (let i = 0; i < 8; ++i) {
         for (let j = 0; j < 8; ++j) {
             if (board[i][j] != 0) {
                 console.log(board[i][j]);
                 let piece = document.getElementById(board[i][j]);
+                piece.style.display = "none;";
                 piece.style.left = 75 * j;
                 piece.style.top = 75 * i;
             }
@@ -85,12 +87,13 @@ function paintChessboard()
 function handleGameState(gameState) {
     let gm = JSON.parse(gameState);
     board = gm.board;
+    paintChessboard()
 }
 
 function newGame() {
     socket.emit('newGame');
     board = [
-        ['br1','bn1','bb1','bq1','bk1','bb2','bn2','br2'],
+        ['br1','bn1','bb1','bq1','bk1','bb2','ibn2','br2'],
         ['bp1','bp2','bp3','bp4','bp5','bp6','bp7','bp8'],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
@@ -105,16 +108,6 @@ function newGame() {
 function joinGame() {
     const code = gameCodeInput.value;
     socket.emit('joinGame', code);
-    board = [
-        ['br1','bn1','bb1','bq1','bk1','bb2','bn2','br2'],
-        ['bp1','bp2','bp3','bp4','bp5','bp6','bp7','bp8'],
-        [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
-        ['wp1','wp2','wp3','wp4','wp5','wp6','wp7','wp8'],
-        ['wr1','wn1','wb1','wq1','wk1','wb2','wn2','wr2'],
-    ]
     paintChessboard();
 }
 
