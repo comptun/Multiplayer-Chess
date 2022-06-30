@@ -21,7 +21,6 @@
     align-content: flex-start;
     position: absolute;
     left: 0; 
-    right: 0;
     top: 0;
     bottom: 0;
     margin: auto;
@@ -43,7 +42,6 @@
     height: 600px;
     position: absolute;
     left: 0; 
-    right: 0;
     top: 0;
     bottom: 0;
     margin: auto;
@@ -53,10 +51,189 @@
 }
 .game-container
 {
-    width:auto;
-    height:auto;
+    width: 900px;
+    height: 600px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
 }
-.bn
+
+.container
 {
-    background-image: url(bn.png);
+    user-select: none;
+    background-color: #efefef;
+    font-family: BasierCircle,system-ui,-apple-system,BlinkMacSystemFont,Helvetica Neue,Helvetica,Arial,sans-serif;
+}
+.menu-container
+{
+    width: 300px;
+    height: 600px;
+    position: absolute;
+    right: 0; 
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: rgba(255,255,255,.9);;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+.logo-container
+{
+    margin-top: 11px;
+    color: rgb(168, 168, 168);
+    transition: all .2s ease-in-out;
+    cursor: pointer;
+    width: 300px;
+    height: 35px;
+    text-align: center;
+}
+.new-game-button
+{
+    margin-top: 7px;
+    color: rgb(168, 168, 168);
+    cursor: pointer;
+    width: 260px;
+    height: 35px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 100px;
+    box-shadow: inset 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    left: 0;
+    right: 0;
+    margin: auto;
+    padding-top: 7px;
+    transition: all .2s ease-in-out;
+}
+.new-game-button:hover
+{
+    background-color: #ececec;
+}
+.blur-background
+{
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+.new-game-container
+{
+    position: absolute;
+    width: 400px;
+    height: 500px;
+    background-color: white;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgb(0 0 0 / 10%);
+}
+.exit-button
+{
+    position: absolute;
+    width: 50px;
+    height: 27px;
+    text-align: center;
+    background-color: #efefef;
+    right: 0;
+    margin: 5px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+.exit-button:hover
+{
+    color: white;
+    background-color: #ff0000;
+}
+.pwaf-button
+{
+    margin-top: 7px;
+    color: rgb(168, 168, 168);
+    cursor: pointer;
+    width: 260px;
+    height: 35px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 100px;
+    box-shadow: inset 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    left: 0;
+    right: 0;
+    margin: auto;
+    padding-top: 7px;
+    margin-top: 100px;
+    transition: all .2s ease-in-out;
+}
+.set-name-container
+{
+    position: absolute;
+    width: 400px;
+    height: 260px;
+    background-color: white;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgb(0 0 0 / 10%);
+}
+.set-name-title
+{
+    position:absolute;
+    width: 300px;
+    height: 32px;
+    left: 0;
+    right: 0;
+    top: 0;
+    margin: auto;
+    font-size: 20px;
+    text-align:center;
+    margin-top: 44px;
+}
+.username-input
+{
+    position:absolute;
+    width: 300px;
+    height: 32px;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom:0;
+    margin: auto;
+}
+.continue-button
+{
+    position: absolute;
+    width: 90px;
+    height: 32px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    text-align: center;
+    background-color: rgb(28, 156, 255);
+    border-radius: 6px;
+    margin-bottom: 40px;
+    cursor: pointer;
+    padding-top: 5px;
+    color: white;
 }

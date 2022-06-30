@@ -7,19 +7,33 @@ socket.on("gameState", handleGameState);
 socket.on("init", handleInit);
 socket.on("gameCode", handleGameCode);
 
-const newGameBtn = document.getElementById('newGameButton');
 const joinGameBtn = document.getElementById('joinGameButton');
 const gameCodeInput = document.getElementById('gameCodeInput');
 const gameCodeDisplay = document.getElementById('gameCodeDisplay');
+const newGameScreen = document.getElementById('newGameScreen');
+const newGameButton = document.getElementById('newGame');
+const exitButton = document.getElementById('exit');
 const pcs = document.getElementById("pcs");
 const pieces = document.getElementById("pcs").children;
+
+const usernameInput = document.getElementById('username');
+
+const pwafButton = document.getElementById('pwaf');
+const continueButton = document.getElementById('continue-btn');
+
+const pwafMenu = document.getElementById('pwaf-menu');
+const mainMenu = document.getElementById('main-menu');
+const nameMenu = document.getElementById('set-name-menu');
 
 
 let playerColour;
 let mouseX, mouseY
 
-newGameBtn.addEventListener('click', newGame);
 joinGameBtn.addEventListener('click', joinGame);
+newGameButton.addEventListener('click', displayNewGameScreen);
+exitButton.addEventListener('click', exitNewGame);
+pwafButton.addEventListener('click', displayPwafMenu);
+continueButton.addEventListener('click', enterUsername);
 
 let board = [
     ['br1','bn1','bb1','bq1','bk1','bb2','bn2','br2'],
@@ -35,8 +49,48 @@ let board = [
 function makePiecesDraggable()
 {
     for (let i = 0; i < pieces.length; ++i) {
-        console.log(pieces[i].id);
         $(pieces[i]).draggable();
+    }
+}
+
+function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    let expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+  
+function getCookie(cname) {
+    let name = cname + "=";
+    let ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+}
+  
+function checkCookies() {
+    let user = getCookie("username");
+    if (user == "") {
+        nameMenu.style.display = "block";
+        //user = prompt("Please enter your name:", "");
+        if (user != "" && user != null) {
+            setCookie("username", user, 365);
+        }
+    }
+}
+
+function enterUsername()
+{
+    if (usernameInput.value != "" && usernameInput.value != null) {
+        nameMenu.style.display = "none";
+        setCookie("username", usernameInput.value, 365);
     }
 }
 
@@ -57,7 +111,6 @@ const mouseDown = (event) => {
     let piece = document.getElementById(event.target.id);
     startX = Math.round(parseInt(piece.style.left) / 75);
     startY = Math.round(parseInt(piece.style.top) / 75);
-    console.log(startX, " ", startY);
 }
 
 pcs.addEventListener('mouseup', mouseUp);
@@ -68,13 +121,30 @@ function handleInit(number) {
     playerColour = number;
 }
 
+function displayNewGameScreen()
+{
+    newGameScreen.style.display = "block";
+    mainMenu.style.display = "block";
+    pwafMenu.style.display = "none";
+}
+function exitNewGame()
+{
+    newGameScreen.style.display = "none";
+}
+function displayPwafMenu()
+{
+    mainMenu.style.display = "none";
+    pwafMenu.style.display = "block";
+    newGame();
+}
+
+
 function paintChessboard()
 {
 
     for (let i = 0; i < 8; ++i) {
         for (let j = 0; j < 8; ++j) {
             if (board[i][j] != 0) {
-                console.log(board[i][j]);
                 let piece = document.getElementById(board[i][j]);
                 piece.style.left = 75 * j;
                 piece.style.top = 75 * i;
@@ -110,6 +180,14 @@ function joinGame() {
     paintChessboard();
 }
 
+function joinGameUrl(code)
+{
+    socket.emit('joinGame', code);
+    paintChessboard();
+    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?id=' + code;
+    window.history.pushState({path:newurl},'',newurl);
+}
+
 function move()
 {
     const mov = moveInput.value;
@@ -118,12 +196,28 @@ function move()
 
 function handleGameCode(gameCode) {
     gameCodeDisplay.innerText = gameCode;
+    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?id=' + gameCode;
+    window.history.pushState({path:newurl},'',newurl);
+}
+
+function getParameterByName(name, url = window.location.href) {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
 function init()
 {
     makePiecesDraggable();
     paintChessboard();
+    checkCookies();
+    let id = getParameterByName('id');
+    if (id != null) {
+        joinGameUrl(id);
+    }
 }
 
 init();
