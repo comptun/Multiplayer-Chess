@@ -135,7 +135,13 @@
                 <div class="pwaf-button" id="pwaf">play with a friend</div>
             </div>
             <div id="pwaf-menu">
-                <h1>Your game code is: <span id="gameCodeDisplay"></span></h1>
+                <div class="game-code-container">your game code is</div>
+                <span class="actual-game-code" id="gameCodeDisplay"></span>
+                <div class="enter-game-code-text">or enter opponent game code</div>
+                <div class="gc-input-container">
+                    <input class="gc-input" type="text" placeholder="enter game code" id="gameCodeInput"/>
+                    <div class="gc-button" id="joinGameButton">join</div>
+                </div>
             </div>
         </div>
     </div>
@@ -148,18 +154,8 @@
             <div id="continue-btn" class="continue-button">continue</div>
         </div>
     </div>
-
-    <div style="width: fit-content;height: fit-content;">
-        <div class="form-group">
-            <input type="text" placeholder="Enter Game Code" id="gameCodeInput"/>
-            <button type="submit"class="btn btn-success"id="joinGameButton">Join Game</button>
-        </div>
-        <div style="display:none">
-            <div id="white" class="white-square square"></div>
-            <div id="black" class="black-square square"></div>
-        </div>
-    </div>
 </body>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<script src="chess/logic.js"></script>
 <script src="chess/chess.js"></script>

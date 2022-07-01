@@ -99,8 +99,12 @@ let endX, endY;
 
 const mouseUp = (event) => {
     let piece = document.getElementById(event.target.id);
+    piece.style.zIndex = "100";
     endX = Math.round(parseInt(piece.style.left) / 75);
     endY = Math.round(parseInt(piece.style.top) / 75);
+    if (board[endY][endX] != 0) {
+        document.getElementById(board[endY][endX]).style.display = "none";
+    }
     board[endY][endX] = board[startY][startX];
     board[startY][startX] = 0;
     socket.emit("movePiece", board);
@@ -109,6 +113,7 @@ const mouseUp = (event) => {
 
 const mouseDown = (event) => {
     let piece = document.getElementById(event.target.id);
+    piece.style.zIndex = "1000";
     startX = Math.round(parseInt(piece.style.left) / 75);
     startY = Math.round(parseInt(piece.style.top) / 75);
 }
@@ -178,6 +183,8 @@ function joinGame() {
     const code = gameCodeInput.value;
     socket.emit('joinGame', code);
     paintChessboard();
+    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?id=' + code;
+    window.history.pushState({path:newurl},'',newurl);
 }
 
 function joinGameUrl(code)
