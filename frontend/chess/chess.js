@@ -29,6 +29,7 @@ const nameMenu = document.getElementById('set-name-menu');
 
 let playerColour;
 let mouseX, mouseY
+let currentTeam;
 
 joinGameBtn.addEventListener('click', joinGame);
 newGameButton.addEventListener('click', displayNewGameScreen);
@@ -102,24 +103,30 @@ let startX, startY;
 let endX, endY;
 
 const mouseUp = (event) => {
-    let piece = document.getElementById(event.target.id);
-    piece.style.zIndex = "100";
-    endX = Math.round(parseInt(piece.style.left) / 75);
-    endY = Math.round(parseInt(piece.style.top) / 75);
-    if (board[endY][endX] != 0) {
-        document.getElementById(board[endY][endX]).style.display = "none";
+    console.log(event.target.id);
+    if (event.target.id != "pcs") {
+        let piece = document.getElementById(event.target.id);
+        piece.style.zIndex = "100";
+        endX = Math.round(parseInt(piece.style.left) / 75);
+        endY = Math.round(parseInt(piece.style.top) / 75);
+        if (isLegalMove(board, startX, startY, endX, endY, curr))
+            if (board[endY][endX] != 0) {
+                document.getElementById(board[endY][endX]).style.display = "none";
+            }
+            board[endY][endX] = board[startY][startX];
+            board[startY][startX] = 0;
+            socket.emit("movePiece", board);
     }
-    board[endY][endX] = board[startY][startX];
-    board[startY][startX] = 0;
-    socket.emit("movePiece", board);
     paintChessboard();
 }
 
 const mouseDown = (event) => {
-    let piece = document.getElementById(event.target.id);
-    piece.style.zIndex = "1000";
-    startX = Math.round(parseInt(piece.style.left) / 75);
-    startY = Math.round(parseInt(piece.style.top) / 75);
+    if (event.target.id != "pcs") {
+        let piece = document.getElementById(event.target.id);
+        piece.style.zIndex = "1000";
+        startX = Math.round(parseInt(piece.style.left) / 75);
+        startY = Math.round(parseInt(piece.style.top) / 75);
+    }
 }
 
 pcs.addEventListener('mouseup', mouseUp);
@@ -171,6 +178,8 @@ function paintChessboard()
 function handleGameState(gameState) {
     let gm = JSON.parse(gameState);
     board = gm.board;
+    currentTeam = gm.currentTeam;
+    console.log(currentTeam);
     paintChessboard()
 }
 
@@ -186,6 +195,7 @@ function newGame() {
         ['wp1','wp2','wp3','wp4','wp5','wp6','wp7','wp8'],
         ['wr1','wn1','wb1','wq1','wk1','wb2','wn2','wr2'],
     ];
+    currentTeam = 0;
     initPieces();
     paintChessboard();
 }
@@ -193,6 +203,7 @@ function newGame() {
 function joinGame() {
     const code = gameCodeInput.value;
     socket.emit('joinGame', code, getCookie("username"), getCookie("userid"));
+    currentTeam = 0;
     initPieces();
     paintChessboard();
     var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?id=' + code;

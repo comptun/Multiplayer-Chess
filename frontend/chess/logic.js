@@ -1,9 +1,9 @@
 function getPieceTeam(piece)
 {
-    let pieceArray = [...piece];
-    if (pieceArray[0] == 'w')
-        return "white";
-    return "black"
+    piece.split('');
+    if (piece[0] == 'w')
+        return 0;
+    return 1;
 }
 
 function isLegalMove(board, startX, startY, endX, endY, team)

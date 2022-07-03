@@ -12,7 +12,7 @@ function initGame()
 function createGameState()
 {
     return {
-        currentPlayer: 0,
+        currentTeam: 0,
         player: [
             {
                 name: "",

@@ -12,7 +12,6 @@ const io = require('socket.io')({
   io.on('connection', client => {
   
     client.on('movePiece', handleMove);
-    client.on('nullMove', nullMove);
     client.on('newGame', handleNewGame);
     client.on('joinGame', handleJoinGame);
   
@@ -69,17 +68,10 @@ const io = require('socket.io')({
       }
       
       state[roomName].board = board;
+      state[roomName].currentTeam = !state[roomName].currentTeam
       emitGameState(roomName, state[roomName])
     }
 
-    function nullMove() {
-      const roomName = clientRooms[client.id];
-      if (!roomName) {
-        return;
-      }
-      
-      state[roomName].lastAction.move = "NULL";
-    }
   });
   
   function startGameInterval(roomName) {
