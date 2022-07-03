@@ -16,7 +16,7 @@ const io = require('socket.io')({
     client.on('newGame', handleNewGame);
     client.on('joinGame', handleJoinGame);
   
-    function handleJoinGame(roomName) {
+    function handleJoinGame(roomName, username, userid) {
       const room = io.sockets.adapter.rooms[roomName];
   
       let allUsers;
@@ -42,11 +42,12 @@ const io = require('socket.io')({
       client.join(roomName);
       client.number = 1;
       client.emit('init', 1);
-      
+      state[roomName].player[1].name = username;
+      state[roomName].player[1].id = userid;
       emitGameState(roomName, state[roomName]);
     }
   
-    function handleNewGame() {
+    function handleNewGame(username, userid) {
       let roomName = makeid(5);
       clientRooms[client.id] = roomName;
       client.emit('gameCode', roomName);
@@ -56,6 +57,8 @@ const io = require('socket.io')({
       client.join(roomName);
       client.number = 0;
       client.emit('init', 0);
+      state[roomName].player[0].name = username;
+      state[roomName].player[0].id = userid;
       emitGameState(roomName, state[roomName]);
     }
   

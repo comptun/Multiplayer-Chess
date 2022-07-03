@@ -20,6 +20,7 @@ const usernameInput = document.getElementById('username');
 
 const pwafButton = document.getElementById('pwaf');
 const continueButton = document.getElementById('continue-btn');
+const ngButton = document.getElementById('ng-button');
 
 const pwafMenu = document.getElementById('pwaf-menu');
 const mainMenu = document.getElementById('main-menu');
@@ -34,6 +35,7 @@ newGameButton.addEventListener('click', displayNewGameScreen);
 exitButton.addEventListener('click', exitNewGame);
 pwafButton.addEventListener('click', displayPwafMenu);
 continueButton.addEventListener('click', enterUsername);
+ngButton.addEventListener('click', newGame);
 
 let board = [
     ['br1','bn1','bb1','bq1','bk1','bb2','bn2','br2'],
@@ -46,10 +48,11 @@ let board = [
     ['wr1','wn1','wb1','wq1','wk1','wb2','wn2','wr2'],
 ]
 
-function makePiecesDraggable()
+function initPieces()
 {
     for (let i = 0; i < pieces.length; ++i) {
         $(pieces[i]).draggable();
+        pieces[i].style.display = "block";
     }
 }
 
@@ -80,9 +83,9 @@ function checkCookies() {
     if (user == "") {
         nameMenu.style.display = "block";
         //user = prompt("Please enter your name:", "");
-        if (user != "" && user != null) {
-            setCookie("username", user, 365);
-        }
+        // if (user != "" && user != null) {
+        //     setCookie("username", user, 365);
+        // }
     }
 }
 
@@ -90,7 +93,8 @@ function enterUsername()
 {
     if (usernameInput.value != "" && usernameInput.value != null) {
         nameMenu.style.display = "none";
-        setCookie("username", usernameInput.value, 365);
+        setCookie("username", usernameInput.value, 365*100);
+        setCookie("userid", makeid(10), 365*100);
     }
 }
 
@@ -140,7 +144,13 @@ function displayPwafMenu()
 {
     mainMenu.style.display = "none";
     pwafMenu.style.display = "block";
-    newGame();
+    let id = getParameterByName('id');
+    if (id == null || id == "") {
+        newGame();
+    }
+    else {
+        gameCodeDisplay.innerText = id;
+    }
 }
 
 
@@ -165,7 +175,7 @@ function handleGameState(gameState) {
 }
 
 function newGame() {
-    socket.emit('newGame');
+    socket.emit('newGame', getCookie("username"), getCookie("userid"));
     board = [
         ['br1','bn1','bb1','bq1','bk1','bb2','bn2','br2'],
         ['bp1','bp2','bp3','bp4','bp5','bp6','bp7','bp8'],
@@ -175,13 +185,15 @@ function newGame() {
         [0,0,0,0,0,0,0,0],
         ['wp1','wp2','wp3','wp4','wp5','wp6','wp7','wp8'],
         ['wr1','wn1','wb1','wq1','wk1','wb2','wn2','wr2'],
-    ]
+    ];
+    initPieces();
     paintChessboard();
 }
   
 function joinGame() {
     const code = gameCodeInput.value;
-    socket.emit('joinGame', code);
+    socket.emit('joinGame', code, getCookie("username"), getCookie("userid"));
+    initPieces();
     paintChessboard();
     var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?id=' + code;
     window.history.pushState({path:newurl},'',newurl);
@@ -189,7 +201,8 @@ function joinGame() {
 
 function joinGameUrl(code)
 {
-    socket.emit('joinGame', code);
+    socket.emit('joinGame', code, getCookie("username"), getCookie("userid"));
+    initPieces();
     paintChessboard();
     var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?id=' + code;
     window.history.pushState({path:newurl},'',newurl);
@@ -216,9 +229,19 @@ function getParameterByName(name, url = window.location.href) {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
+function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+ }
+
 function init()
 {
-    makePiecesDraggable();
+    initPieces();
     paintChessboard();
     checkCookies();
     let id = getParameterByName('id');

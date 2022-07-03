@@ -13,6 +13,16 @@ function createGameState()
 {
     return {
         currentPlayer: 0,
+        player: [
+            {
+                name: "",
+                id: "",
+            },
+            {
+                name: "",
+                id: "",
+            },
+        ],
         lastAction: {
             move: "NULL",
             colour: 0,
