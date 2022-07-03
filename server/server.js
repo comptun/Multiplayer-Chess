@@ -35,14 +35,19 @@ const io = require('socket.io')({
         client.emit('tooManyPlayers');
         return;
       }
+
+      let i = 1;
+      if (userid == state[roomName].player[0].id) {
+        i = 0;
+      }
   
       clientRooms[client.id] = roomName;
   
       client.join(roomName);
-      client.number = 1;
-      client.emit('init', 1);
-      state[roomName].player[1].name = username;
-      state[roomName].player[1].id = userid;
+      client.number = i;
+      client.emit('init', i);
+      state[roomName].player[i].name = username;
+      state[roomName].player[i].id = userid;
       emitGameState(roomName, state[roomName]);
     }
   

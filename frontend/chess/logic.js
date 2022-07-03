@@ -1,12 +1,17 @@
 function getPieceTeam(piece)
 {
-    piece.split('');
     if (piece[0] == 'w')
         return 0;
-    return 1;
+    else if (piece[0] == 'b')
+        return 1;
+    return 2;
 }
 
 function isLegalMove(board, startX, startY, endX, endY, team)
 {
-    return "yes";
+    let piece = board[startY][startX];
+    if (getPieceTeam(piece) == team && (startY != endY || startX != endX) && playerColour == team) {
+        return true;
+    }
+    return false;
 }

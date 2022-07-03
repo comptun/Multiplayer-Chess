@@ -17,10 +17,12 @@ function createGameState()
             {
                 name: "",
                 id: "",
+                team: 0,
             },
             {
                 name: "",
                 id: "",
+                team: 1,
             },
         ],
         lastAction: {

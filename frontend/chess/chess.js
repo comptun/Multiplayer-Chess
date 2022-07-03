@@ -109,13 +109,14 @@ const mouseUp = (event) => {
         piece.style.zIndex = "100";
         endX = Math.round(parseInt(piece.style.left) / 75);
         endY = Math.round(parseInt(piece.style.top) / 75);
-        if (isLegalMove(board, startX, startY, endX, endY, curr))
+        if (isLegalMove(board, startX, startY, endX, endY, currentTeam)) {
             if (board[endY][endX] != 0) {
                 document.getElementById(board[endY][endX]).style.display = "none";
             }
             board[endY][endX] = board[startY][startX];
             board[startY][startX] = 0;
             socket.emit("movePiece", board);
+        }
     }
     paintChessboard();
 }
