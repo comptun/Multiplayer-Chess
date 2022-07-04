@@ -27,7 +27,7 @@ const mainMenu = document.getElementById('main-menu');
 const nameMenu = document.getElementById('set-name-menu');
 
 
-let playerColour;
+let playerColour = 0;
 let mouseX, mouseY
 let currentTeam;
 
@@ -109,6 +109,10 @@ const mouseUp = (event) => {
         piece.style.zIndex = "100";
         endX = Math.round(parseInt(piece.style.left) / 75);
         endY = Math.round(parseInt(piece.style.top) / 75);
+        if (playerColour == 1) {
+            endX = 7 - Math.round(parseInt(piece.style.left) / 75);
+            endY = 7 - Math.round(parseInt(piece.style.top) / 75);
+        }
         if (isLegalMove(board, startX, startY, endX, endY, currentTeam)) {
             if (board[endY][endX] != 0) {
                 document.getElementById(board[endY][endX]).style.display = "none";
@@ -127,6 +131,10 @@ const mouseDown = (event) => {
         piece.style.zIndex = "1000";
         startX = Math.round(parseInt(piece.style.left) / 75);
         startY = Math.round(parseInt(piece.style.top) / 75);
+        if (playerColour == 1) {
+            startX = 7 - Math.round(parseInt(piece.style.left) / 75);
+            startY = 7 - Math.round(parseInt(piece.style.top) / 75);
+        }
     }
 }
 
@@ -167,10 +175,19 @@ function paintChessboard()
 
     for (let i = 0; i < 8; ++i) {
         for (let j = 0; j < 8; ++j) {
-            if (board[i][j] != 0) {
-                let piece = document.getElementById(board[i][j]);
-                piece.style.left = 75 * j;
-                piece.style.top = 75 * i;
+            if (playerColour == 0) {
+                if (board[i][j] != 0) {
+                    let piece = document.getElementById(board[i][j]);
+                    piece.style.left = 75 * j;
+                    piece.style.top = 75 * i;
+                }
+            }
+            else {
+                if (board[i][j] != 0) {
+                    let piece = document.getElementById(board[i][j]);
+                    piece.style.left = 75 * (7 - j);
+                    piece.style.top = 75 * (7 - i);
+                }
             }
         }
     }
