@@ -210,10 +210,18 @@ function handleGameState(gameState) {
     currentTeam = gm.currentTeam;
     capturedPieces = gm.capturedPieces;
     console.log(currentTeam);
-    $("#" + gm.movedPiece).animate({
-        left: gm.lastMove[2].toString() + "px",
-        top: gm.lastMove[3].toString() + "px"
-    });
+    if (playerColour == 1) {
+        $("#" + gm.movedPiece).animate({
+            left: ((7 - gm.lastMove[2]) * 75).toString() + "px",
+            top: ((7 - gm.lastMove[3]) * 75).toString() + "px"
+        });
+    }
+    else {
+        $("#" + gm.movedPiece).animate({
+            left: (gm.lastMove[2] * 75).toString() + "px",
+            top: (gm.lastMove[3] * 75).toString() + "px"
+        });
+    }
     paintChessboard()
 }
 
@@ -229,6 +237,7 @@ function newGame() {
         ['wp1','wp2','wp3','wp4','wp5','wp6','wp7','wp8'],
         ['wr1','wn1','wb1','wq1','wk1','wb2','wn2','wr2'],
     ];
+    capturedPieces = [];
     currentTeam = 0;
     initPieces();
     paintChessboard();
