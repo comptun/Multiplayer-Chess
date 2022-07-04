@@ -16,25 +16,25 @@ const io = require('socket.io')({
     client.on('joinGame', handleJoinGame);
   
     function handleJoinGame(roomName, username, userid) {
-      // const room = io.sockets.adapter.rooms[roomName];
+      const room = io.sockets.adapter.rooms[roomName];
   
-      // let allUsers;
-      // if (room) {
-      //   allUsers = room.sockets;
-      // }
+      let allUsers;
+      if (room) {
+        allUsers = room.sockets;
+      }
   
-      // let numClients = 0;
-      // if (allUsers) {
-      //   numClients = Object.keys(allUsers).length;
-      // }
+      let numClients = 0;
+      if (allUsers) {
+        numClients = Object.keys(allUsers).length;
+      }
   
-      // if (numClients === 0) {
-      //   client.emit('unknownCode');
-      //   return;
-      // } else if (numClients > 1) {
-      //   client.emit('tooManyPlayers');
-      //   return;
-      // }
+      if (numClients === 0) {
+        client.emit('unknownCode');
+        return;
+      } else if (numClients > 1) {
+        client.emit('tooManyPlayers');
+        return;
+      }
 
       let i = 2;
       if (userid == state[roomName].player[0].id || state[roomName].player[0].id == "") {
