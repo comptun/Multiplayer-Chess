@@ -121,7 +121,7 @@ const mouseUp = (event) => {
             }
             board[endY][endX] = board[startY][startX];
             board[startY][startX] = 0;
-            socket.emit("movePiece", board, capturedPieces);
+            socket.emit("movePiece", [startX, startY, endX, endY], board, capturedPieces);
         }
     }
     paintChessboard();
@@ -211,6 +211,10 @@ function handleGameState(gameState) {
     currentTeam = gm.currentTeam;
     capturedPieces = gm.capturedPieces;
     console.log(currentTeam);
+    $(gm.movedPiece).animate({
+        left: gm.lastMove[2].toString(),
+        top: gm.lastMove[3].toString()
+    });
     paintChessboard()
 }
 
@@ -234,6 +238,7 @@ function newGame() {
 function joinGame() {
     const code = gameCodeInput.value;
     socket.emit('joinGame', code, getCookie("username"), getCookie("userid"));
+    capturedPieces = [];
     currentTeam = 0;
     initPieces();
     paintChessboard();
@@ -244,6 +249,8 @@ function joinGame() {
 function joinGameUrl(code)
 {
     socket.emit('joinGame', code, getCookie("username"), getCookie("userid"));
+    capturedPieces = [];
+    currentTeam = 0;
     initPieces();
     paintChessboard();
     var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?id=' + code;
