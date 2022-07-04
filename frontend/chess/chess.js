@@ -120,7 +120,7 @@ const mouseUp = (event) => {
             }
             board[endY][endX] = board[startY][startX];
             board[startY][startX] = 0;
-            socket.emit("movePiece", [startX, startY, endX, endY], board, capturedPieces);
+            socket.emit("movePiece", board, [startX, startY, endX, endY], capturedPieces);
         }
     }
     paintChessboard();
