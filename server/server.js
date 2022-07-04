@@ -69,12 +69,12 @@ const io = require('socket.io')({
       emitGameState(roomName, state[roomName]);
     }
   
-    function handleMove(board) {
+    function handleMove(board, capturedPieces) {
       const roomName = clientRooms[client.id];
       if (!roomName) {
         return;
       }
-      
+      state[roomName].capturedPieces = capturedPieces;
       state[roomName].board = board;
       state[roomName].currentTeam = !state[roomName].currentTeam
       emitGameState(roomName, state[roomName])

@@ -25,6 +25,7 @@ function createGameState()
                 team: 1,
             },
         ],
+        capturedPieces: [],
         lastAction: {
             move: "NULL",
             colour: 0,

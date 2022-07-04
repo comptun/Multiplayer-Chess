@@ -30,6 +30,7 @@ const nameMenu = document.getElementById('set-name-menu');
 let playerColour = 0;
 let mouseX, mouseY
 let currentTeam;
+let capturedPieces = [];
 
 joinGameBtn.addEventListener('click', joinGame);
 newGameButton.addEventListener('click', displayNewGameScreen);
@@ -115,11 +116,12 @@ const mouseUp = (event) => {
         }
         if (isLegalMove(board, startX, startY, endX, endY, currentTeam)) {
             if (board[endY][endX] != 0) {
+                capturedPieces.push(board[endY][endX]);
                 document.getElementById(board[endY][endX]).style.display = "none";
             }
             board[endY][endX] = board[startY][startX];
             board[startY][startX] = 0;
-            socket.emit("movePiece", board);
+            socket.emit("movePiece", board, capturedPieces);
         }
     }
     paintChessboard();
@@ -182,14 +184,24 @@ function paintChessboard()
                     piece.style.top = 75 * i;
                 }
             }
-            else {
+            else if (playerColour == 1) {
                 if (board[i][j] != 0) {
                     let piece = document.getElementById(board[i][j]);
                     piece.style.left = 75 * (7 - j);
                     piece.style.top = 75 * (7 - i);
                 }
             }
+            else {
+                if (board[i][j] != 0) {
+                    let piece = document.getElementById(board[i][j]);
+                    piece.style.left = 75 * j;
+                    piece.style.top = 75 * i;
+                }
+            }
         }
+    }
+    for (let i = 0; i < capturedPieces.length; ++i) {
+        document.getElementById(capturedPieces[i]).style.display = "none";
     }
 }
 
@@ -197,6 +209,7 @@ function handleGameState(gameState) {
     let gm = JSON.parse(gameState);
     board = gm.board;
     currentTeam = gm.currentTeam;
+    capturedPieces = gm.capturedPieces;
     console.log(currentTeam);
     paintChessboard()
 }
