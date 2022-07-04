@@ -37,10 +37,10 @@ const io = require('socket.io')({
       // }
 
       let i = 2;
-      if (userid == state[roomName].player[0].id) {
+      if (userid == state[roomName].player[0].id || state[roomName].player[0].id == "") {
         i = 0;
       }
-      else if (userid == state[roomName].player[1].id) {
+      else if (userid == state[roomName].player[1].id || state[roomName].player[1].id == "") {
         i = 1;
       }
   
