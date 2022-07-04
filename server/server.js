@@ -76,10 +76,10 @@ const io = require('socket.io')({
       }
       state[roomName].capturedPieces = capturedPieces;
       state[roomName].board = board;
-      state[roomName].currentTeam = !state[roomName].currentTeam
+      state[roomName].currentTeam = !state[roomName].currentTeam;
       state[roomName].lastMove = move;
       state[roomName].movedPiece = board[move[2]][move[3]];
-      emitGameState(roomName, state[roomName])
+      emitGameState(roomName, state[roomName]);
     }
 
   });

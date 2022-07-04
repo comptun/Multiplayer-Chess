@@ -104,7 +104,6 @@ let startX, startY;
 let endX, endY;
 
 const mouseUp = (event) => {
-    console.log(event.target.id);
     if (event.target.id != "pcs") {
         let piece = document.getElementById(event.target.id);
         piece.style.zIndex = "100";
@@ -211,9 +210,9 @@ function handleGameState(gameState) {
     currentTeam = gm.currentTeam;
     capturedPieces = gm.capturedPieces;
     console.log(currentTeam);
-    $(gm.movedPiece).animate({
-        left: gm.lastMove[2].toString(),
-        top: gm.lastMove[3].toString()
+    $("#" + gm.movedPiece).animate({
+        left: gm.lastMove[2].toString() + "px",
+        top: gm.lastMove[3].toString() + "px"
     });
     paintChessboard()
 }
