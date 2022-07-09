@@ -20,7 +20,7 @@
     flex-wrap: wrap;
     align-content: flex-start;
     position: absolute;
-    left: 0; 
+    left: 50px; 
     top: 0;
     bottom: 0;
     margin: auto;
@@ -41,7 +41,7 @@
     width: 600px;
     height: 600px;
     position: absolute;
-    left: 0; 
+    left: 50px; 
     top: 0;
     bottom: 0;
     margin: auto;
@@ -51,7 +51,7 @@
 }
 .game-container
 {
-    width: 900px;
+    width: 950px;
     height: 600px;
     position: absolute;
     left: 0;
@@ -366,4 +366,36 @@
     width: 400px;
     position: absolute;
     margin-top: 65px;
+}
+.userinfo-container
+{
+    position:absolute;
+    left:0;
+    height:600px;
+    width:50px;
+    background-color: white;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+.player-name-container
+{
+    position: absolute;
+    writing-mode: vertical-lr;
+    -webkit-transform: rotate(-180deg);
+    -moz-transform: rotate(-180deg);
+    width: 32px;
+    height: 260px;
+    overflow: hidden;
+}
+.player1
+{
+    text-align:left;
+    bottom: 0;
+    padding-top: 15px;
+}
+.player2
+{
+    text-align: right;
+    top: 0;
+    padding-bottom: 15px;
 }

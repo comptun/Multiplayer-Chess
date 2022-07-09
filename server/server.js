@@ -37,6 +37,9 @@ const io = require('socket.io')({
       }
 
       let i = 2;
+      if (state[roomName].player[0].id == "" && state[roomName].player[1].id == "") {
+        i = Math.floor(Math.random() * 2);
+      }
       if (userid == state[roomName].player[0].id || state[roomName].player[0].id == "") {
         i = 0;
       }
@@ -49,8 +52,10 @@ const io = require('socket.io')({
       client.join(roomName);
       client.number = i;
       client.emit('init', i);
-      state[roomName].player[i].name = username;
-      state[roomName].player[i].id = userid;
+      if (i < 2) {
+        state[roomName].player[i].name = username;
+        state[roomName].player[i].id = userid;
+      }
       emitGameState(roomName, state[roomName]);
     }
   
@@ -62,10 +67,10 @@ const io = require('socket.io')({
       state[roomName] = initGame();
   
       client.join(roomName);
-      client.number = 0;
-      client.emit('init', 0);
-      state[roomName].player[0].name = username;
-      state[roomName].player[0].id = userid;
+      client.number = Math.floor(Math.random() * 2);
+      client.emit('init', client.number);
+      state[roomName].player[client.number].name = username;
+      state[roomName].player[client.number].id = userid;
       emitGameState(roomName, state[roomName]);
     }
   

@@ -26,6 +26,9 @@ const pwafMenu = document.getElementById('pwaf-menu');
 const mainMenu = document.getElementById('main-menu');
 const nameMenu = document.getElementById('set-name-menu');
 
+const p1Name = document.getElementById('p1');
+const p2Name = document.getElementById('p2');
+
 
 let playerColour = 0;
 let mouseX, mouseY
@@ -113,7 +116,7 @@ const mouseUp = (event) => {
             endX = 7 - Math.round(parseInt(piece.style.left) / 75);
             endY = 7 - Math.round(parseInt(piece.style.top) / 75);
         }
-        if (isLegalMove(board, startX, startY, endX, endY, currentTeam)) {
+        if (isLegalMove(board, new Vec2(startX, startY), new Vec2(endX, endY), currentTeam)) {
             if (board[endY][endX] != 0) {
                 capturedPieces.push(board[endY][endX]);
                 document.getElementById(board[endY][endX]).style.display = "none";
@@ -215,12 +218,16 @@ function handleGameState(gameState) {
             left: ((7 - gm.lastMove[2]) * 75).toString() + "px",
             top: ((7 - gm.lastMove[3]) * 75).toString() + "px"
         });
+        p1Name.innerText = gm.player[1].name;
+        p2Name.innerText = gm.player[0].name;
     }
     else {
         $("#" + gm.movedPiece).animate({
             left: (gm.lastMove[2] * 75).toString() + "px",
             top: (gm.lastMove[3] * 75).toString() + "px"
         });
+        p1Name.innerText = gm.player[0].name;
+        p2Name.innerText = gm.player[1].name;
     }
     paintChessboard()
 }
