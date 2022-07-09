@@ -31,9 +31,6 @@ const io = require('socket.io')({
       if (numClients === 0) {
         client.emit('unknownCode');
         return;
-      } else if (numClients > 1) {
-        client.emit('tooManyPlayers');
-        return;
       }
 
       let i = 2;
