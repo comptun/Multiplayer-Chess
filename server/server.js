@@ -81,7 +81,7 @@ const io = require('socket.io')({
       state[roomName].board[move[1]][move[0]] = 0;
       state[roomName].currentTeam = !state[roomName].currentTeam;
       state[roomName].lastMove = move;
-      state[roomName].movedPiece = board[move[3]][move[2]];
+      state[roomName].movedPiece = state[roomName].board[move[3]][move[2]];
       emitGameState(roomName, state[roomName]);
     }
 
