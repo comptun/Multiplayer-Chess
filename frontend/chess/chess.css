@@ -343,7 +343,7 @@
     top: 0;
     left: 0;
     right: 0;
-    width: 100px;
+    width: 140px;
     height: 39px;
     margin: auto;
     text-align: center;
@@ -398,4 +398,14 @@
     text-align: right;
     top: 0;
     padding-bottom: 15px;
+}
+.chat-container
+{
+    margin-top: 20px;
+    width: 300px;
+    height: 490px;
+}
+.chat-title-container
+{
+
 }

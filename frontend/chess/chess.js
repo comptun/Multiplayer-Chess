@@ -116,14 +116,12 @@ const mouseUp = (event) => {
             endX = 7 - Math.round(parseInt(piece.style.left) / 75);
             endY = 7 - Math.round(parseInt(piece.style.top) / 75);
         }
-        if (isLegalMove(board, new Vec2(startX, startY), new Vec2(endX, endY), currentTeam)) {
+        if (isLegalMove(board, new Move(new Vec2(startX, startY), new Vec2(endX, endY)), currentTeam)) {
             if (board[endY][endX] != 0) {
                 capturedPieces.push(board[endY][endX]);
                 document.getElementById(board[endY][endX]).style.display = "none";
             }
-            board[endY][endX] = board[startY][startX];
-            board[startY][startX] = 0;
-            socket.emit("movePiece", board, [startX, startY, endX, endY], capturedPieces);
+            socket.emit("movePiece", [startX, startY, endX, endY], capturedPieces);
         }
     }
     paintChessboard();
@@ -251,6 +249,7 @@ function newGame() {
 }
   
 function joinGame() {
+    exitNewGame();
     const code = gameCodeInput.value;
     socket.emit('joinGame', code, getCookie("username"), getCookie("userid"));
     capturedPieces = [];

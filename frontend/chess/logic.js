@@ -27,20 +27,50 @@ function getLegalPawnMoves(board, team)
                     if (piece[0] == 'w') {
                         offset = -1;
                     }
+                    let start = new Vec2(j, i), end = new Vec2(j, i + offset);
                     if (i + offset <= 8 && i + offset >= 0) {
-
+                        if (j + 1 <= 8) {
+                            if (board[i + offset][j + 1] != 0) {
+                                legals.push(new Move(start, new Vec2(j + 1, i + offset)))
+                            }
+                        }
+                        if (j - 1 >= 0) {
+                            if (board[i + offset][j - 1] != 0) {
+                                legals.push(new Move(start, new Vec2(j - 1, i + offset)))
+                            }
+                        }
+                        if (board[i + offset][j] == 0) {
+                            legals.push(new Move(start, end));
+                        }
+                    }
+                    if ((getPieceTeam(piece) == 0 && i == 6) || (getPieceTeam(piece) == 1 && i == 1)) { 
+                        if (i + (2 * offset) <= 8 && i + (2 * offset) >= 0) {
+                            if (board[i + offset][j] == 0 && board[i + (2 * offset)][j] == 0) {
+                                legals.push(new Move(start, new Vec2(j, i + (2 * offset))));
+                            }
+                        }
                     }
                 }
             }
         }
     }
+    return legals;
 }
 
-function isLegalMove(board, start, end, team)
+function isLegalMove(board, move, team)
 {
-    let piece = board[start.y][start.x];
-    let capturedPice = board[end.y][end.x];
-    if (getPieceTeam(piece) == team && (start.y != end.y || start.x != end.x) && playerColour == team) {
+    let piece = board[move.start.y][move.start.x];
+    let capturedPiece = board[move.end.y][move.end.x];
+    if (getPieceTeam(piece) == team && (move.start.y != move.end.y || move.start.x != move.end.x) && playerColour == team && getPieceTeam(piece) != getPieceTeam(capturedPiece)) {
+        if (piece[1] == 'p' && colourToTeam(piece[0]) == team) {
+            let moves = getLegalPawnMoves(board, team);
+            for (let i = 0; i < moves.length; ++i) {
+                if (JSON.stringify(moves[i]) == JSON.stringify(move)) {
+                    return true;
+                }
+            }
+            return false;
+        }
         return true;
     }
     return false;
