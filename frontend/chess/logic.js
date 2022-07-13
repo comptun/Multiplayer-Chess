@@ -15,6 +15,26 @@ function colourToTeam(colour)
     return 2;
 }
 
+function getHorizontalPieceMoves(board, team, maxLength)
+{
+    let legals = [];
+    for (let i = 0; i < 8; ++i) {
+        for (let j = 0; j < 8; ++j) {
+            let piece = board[i][j];
+            if (piece != 0) {
+                if (colourToTeam(piece[0]) == team && (piece[1] == 'r' || piece[1] == 'q' || piece[1] == 'k')) {
+
+                    for (let k = j; j >= 0; --j) {
+                        
+                    }
+
+
+                }
+            }
+        }
+    }
+}
+
 function getLegalPawnMoves(board, team)
 {
     let legals = [];

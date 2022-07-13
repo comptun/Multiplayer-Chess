@@ -6,6 +6,7 @@ const socket = io('https://chess-online-project-app.herokuapp.com/');
 socket.on("gameState", handleGameState);
 socket.on("init", handleInit);
 socket.on("gameCode", handleGameCode);
+socket.on("recieveMessage", handleRecieveMessage);
 
 const joinGameBtn = document.getElementById('joinGameButton');
 const gameCodeInput = document.getElementById('gameCodeInput');
@@ -51,7 +52,12 @@ let board = [
     [0,0,0,0,0,0,0,0],
     ['wp1','wp2','wp3','wp4','wp5','wp6','wp7','wp8'],
     ['wr1','wn1','wb1','wq1','wk1','wb2','wn2','wr2'],
-]
+];
+
+function handleRecieveMessage(message, username, userid)
+{
+    console.log(username, ": ", message);
+}
 
 function initPieces()
 {
@@ -121,6 +127,9 @@ const mouseUp = (event) => {
                 capturedPieces.push(board[endY][endX]);
                 document.getElementById(board[endY][endX]).style.display = "none";
             }
+            board[endY][endX] = board[startY][startX];
+            board[startY][startX] = 0;
+            currentTeam = !currentTeam;
             socket.emit("movePiece", [startX, startY, endX, endY], capturedPieces);
         }
     }

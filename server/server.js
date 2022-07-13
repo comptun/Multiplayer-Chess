@@ -14,6 +14,7 @@ const io = require('socket.io')({
     client.on('movePiece', handleMove);
     client.on('newGame', handleNewGame);
     client.on('joinGame', handleJoinGame);
+    client.on('sendMessage', handleSendMessage);
   
     function handleJoinGame(roomName, username, userid) {
       const room = io.sockets.adapter.rooms[roomName];
@@ -83,6 +84,15 @@ const io = require('socket.io')({
       state[roomName].lastMove = move;
       state[roomName].movedPiece = state[roomName].board[move[3]][move[2]];
       emitGameState(roomName, state[roomName]);
+    }
+
+    function handleSendMessage(message, username, userid) {
+      const roomName = clientRooms[client.id];
+      if (!roomName) {
+        return;
+      }
+      state[roomName].messages.push([message, username, userid]);
+      client.emit('recieveMessage', message, username, userid);
     }
 
   });

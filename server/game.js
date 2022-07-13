@@ -25,6 +25,7 @@ function createGameState()
                 team: 1,
             },
         ],
+        messages: [],
         capturedPieces: [],
         lastMove: [0,0,0,0],
         movedPiece: "",
