@@ -66,7 +66,7 @@ const io = require('socket.io')({
   
       client.join(roomName);
       client.number = Math.floor(Math.random() * 2);
-      client.emit('init', client.number);
+      client.emit('init', client.number, JSON.stringify(state[roomName]));
       state[roomName].player[client.number].name = username;
       state[roomName].player[client.number].id = userid;
       emitGameState(roomName, state[roomName]);
