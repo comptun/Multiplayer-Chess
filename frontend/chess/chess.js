@@ -16,12 +16,16 @@ const newGameButton = document.getElementById('newGame');
 const exitButton = document.getElementById('exit');
 const pcs = document.getElementById("pcs");
 const pieces = document.getElementById("pcs").children;
+const originMessage = document.getElementById("origin-msg");
+const chat = document.getElementById("chat");
 
 const usernameInput = document.getElementById('username');
+const messageInput = document.getElementById("msg-input");
 
 const pwafButton = document.getElementById('pwaf');
 const continueButton = document.getElementById('continue-btn');
 const ngButton = document.getElementById('ng-button');
+const sendButton = document.getElementById("send-btn");
 
 const pwafMenu = document.getElementById('pwaf-menu');
 const mainMenu = document.getElementById('main-menu');
@@ -42,6 +46,7 @@ exitButton.addEventListener('click', exitNewGame);
 pwafButton.addEventListener('click', displayPwafMenu);
 continueButton.addEventListener('click', enterUsername);
 ngButton.addEventListener('click', newGame);
+sendButton.addEventListener('click', sendMessage);
 
 let board = [
     ['br1','bn1','bb1','bq1','bk1','bb2','bn2','br2'],
@@ -54,9 +59,25 @@ let board = [
     ['wr1','wn1','wb1','wq1','wk1','wb2','wn2','wr2'],
 ];
 
+function displayMessage(message, username, userid)
+{
+    const messageID = makeid(5);
+    $("#origin-msg").clone().attr("id", messageID).appendTo("body");
+    const msg = document.getElementById(messageID);
+    chat.append(msg);
+    msg.innerHTML = username + ": " + message;
+    chat.scrollTop = chat.scrollHeight - chat.getBoundingClientRect().height;
+}
+
 function handleRecieveMessage(message, username, userid)
 {
-    console.log(username, ": ", message);
+    displayMessage(message, username, userid);
+}
+
+function sendMessage()
+{
+    socket.emit("sendMessage", messageInput.value, getCookie("username"), getCookie("userid"));
+    messageInput.value = "";
 }
 
 function initPieces()
@@ -152,9 +173,13 @@ const mouseDown = (event) => {
 pcs.addEventListener('mouseup', mouseUp);
 pcs.addEventListener('mousedown', mouseDown);
 
-function handleInit(number) {
+function handleInit(number, gameState) {
+    gameState = JSON.parse(gameState);
     console.log("You are player ", number);
     playerColour = number;
+    for (let i = 0; i < gameState.messages.length; ++i) {
+        displayMessage(gameState.messages[i][0], gameState.messages[i][1], gameState.messages[i][2])
+    }
 }
 
 function displayNewGameScreen()
@@ -255,6 +280,7 @@ function newGame() {
     currentTeam = 0;
     initPieces();
     paintChessboard();
+    socket.emit("sendMessage", getCookie("username") + "has joined the game!", "system", "0");
 }
   
 function joinGame() {
@@ -267,6 +293,7 @@ function joinGame() {
     paintChessboard();
     var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?id=' + code;
     window.history.pushState({path:newurl},'',newurl);
+    socket.emit("sendMessage", getCookie("username") + "has joined the game!", "system", "0");
 }
 
 function joinGameUrl(code)
@@ -278,6 +305,7 @@ function joinGameUrl(code)
     paintChessboard();
     var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?id=' + code;
     window.history.pushState({path:newurl},'',newurl);
+    socket.emit("sendMessage", getCookie("username") + "has joined the game!", "system", "0");
 }
 
 function move()

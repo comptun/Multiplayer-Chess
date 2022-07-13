@@ -4,7 +4,7 @@
 
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>  
 <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>  
-
+<div id="origin-msg" class="message"></div>
 <body class="container">
     <div class="game-container">
         <div class="userinfo-container">
@@ -135,10 +135,11 @@
             </div>
             <div class="chat-container">
                 <div class="chat-title-container">live chat</div>
-                <div class="chat-ui-container">
-                
+                <div class="chat-ui-container" id="chat">
+                    
                 </div>
-                <input class="message-container" placeholder="send a message"></input>
+                <input id="msg-input" class="message-container" placeholder="send a message"></input>
+                <div id="send-btn" class="send-button">send</div>
             </div>
         </div>
     </div>

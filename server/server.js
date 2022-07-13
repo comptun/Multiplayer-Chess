@@ -49,7 +49,7 @@ const io = require('socket.io')({
   
       client.join(roomName);
       client.number = i;
-      client.emit('init', i);
+      client.emit('init', i, JSON.stringify(state[roomName]));
       if (i < 2) {
         state[roomName].player[i].name = username;
         state[roomName].player[i].id = userid;
