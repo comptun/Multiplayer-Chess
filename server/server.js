@@ -92,7 +92,7 @@ const io = require('socket.io')({
         return;
       }
       state[roomName].messages.push([message, username, userid]);
-      client.emit('recieveMessage', message, username, userid);
+      io.sockets.in(roomName).emit('recieveMessage', message, username, userid);
     }
 
   });
