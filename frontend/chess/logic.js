@@ -22,17 +22,73 @@ function getHorizontalPieceMoves(board, team, maxLength)
         for (let j = 0; j < 8; ++j) {
             let piece = board[i][j];
             if (piece != 0) {
-                if (colourToTeam(piece[0]) == team && (piece[1] == 'r' || piece[1] == 'q' || piece[1] == 'k')) {
-
-                    for (let k = j; j >= 0; --j) {
-                        
+                if (colourToTeam(piece[0]) == team) {
+                    let start = new Vec2(j, i)
+                    let length = 0;
+                    // left
+                    for (let k = j - 1; k >= 0 && length < maxLength; --k) {
+                        let piece = board[i][k];
+                        if (piece != 0) {
+                            if (getPieceTeam(piece) == team)
+                                break;
+                        }
+                        legals.push(new Move(start, new Vec2(k, i)));
+                        length += 1;
+                        if (piece != 0) {
+                            if (getPieceTeam(piece) != team)
+                                break;
+                        }
                     }
-
-
+                    // right
+                    length = 0;
+                    for (let k = j + 1; k <= 7 && length < maxLength; ++k) {
+                        let piece = board[i][k];
+                        if (piece != 0) {
+                            if (getPieceTeam(piece) == team)
+                                break;
+                        }
+                        legals.push(new Move(start, new Vec2(k, i)));
+                        length += 1;
+                        if (piece != 0) {
+                            if (getPieceTeam(piece) != team)
+                                break;
+                        }
+                    }
+                    // up
+                    length = 0;
+                    for (let k = i - 1; k >= 0 && length < maxLength; --k) {
+                        let piece = board[k][j];
+                        if (piece != 0) {
+                            if (getPieceTeam(piece) == team)
+                                break;
+                        }
+                        legals.push(new Move(start, new Vec2(j, k)));
+                        length += 1;
+                        if (piece != 0) {
+                            if (getPieceTeam(piece) != team)
+                                break;
+                        }
+                    }
+                    // down
+                    length = 0;
+                    for (let k = i + 1; k <= 7 && length < maxLength; ++k) {
+                        let piece = board[k][j];
+                        if (piece != 0) {
+                            if (getPieceTeam(piece) == team)
+                                break;
+                        }
+                        legals.push(new Move(start, new Vec2(j, k)));
+                        length += 1;
+                        if (piece != 0) {
+                            if (getPieceTeam(piece) != team)
+                                break;
+                        }
+                    }
                 }
             }
         }
     }
+    return legals;
 }
 
 function getLegalPawnMoves(board, team)
@@ -82,8 +138,35 @@ function isLegalMove(board, move, team)
     let piece = board[move.start.y][move.start.x];
     let capturedPiece = board[move.end.y][move.end.x];
     if (getPieceTeam(piece) == team && (move.start.y != move.end.y || move.start.x != move.end.x) && playerColour == team && getPieceTeam(piece) != getPieceTeam(capturedPiece)) {
-        if (piece[1] == 'p' && colourToTeam(piece[0]) == team) {
+        if (piece[1] == 'p') {
             let moves = getLegalPawnMoves(board, team);
+            for (let i = 0; i < moves.length; ++i) {
+                if (JSON.stringify(moves[i]) == JSON.stringify(move)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        else if (piece[1] == 'r') {
+            let moves = getHorizontalPieceMoves(board, team, 8);
+            for (let i = 0; i < moves.length; ++i) {
+                if (JSON.stringify(moves[i]) == JSON.stringify(move)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        else if (piece[1] == 'q') {
+            let moves = getHorizontalPieceMoves(board, team, 8);
+            for (let i = 0; i < moves.length; ++i) {
+                if (JSON.stringify(moves[i]) == JSON.stringify(move)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        else if (piece[1] == 'k') {
+            let moves = getHorizontalPieceMoves(board, team, 1);
             for (let i = 0; i < moves.length; ++i) {
                 if (JSON.stringify(moves[i]) == JSON.stringify(move)) {
                     return true;

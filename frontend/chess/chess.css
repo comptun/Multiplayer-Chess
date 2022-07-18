@@ -509,3 +509,12 @@
     color: #3b77ff;
     cursor: pointer;
 }
+.msg-username
+{
+    font-weight: 600;
+    cursor: pointer;
+}
+.msg-username:hover
+{
+    text-decoration: underline;
+}

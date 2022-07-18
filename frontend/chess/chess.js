@@ -65,7 +65,7 @@ function displayMessage(message, username, userid)
     $("#origin-msg").clone().attr("id", messageID).appendTo("body");
     const msg = document.getElementById(messageID);
     chat.append(msg);
-    msg.innerHTML = username + ": " + message;
+    msg.innerHTML = "<span class='msg-username'>" + username + "</span>: " + message;
     chat.scrollTop = chat.scrollHeight - chat.getBoundingClientRect().height;
 }
 
@@ -134,6 +134,7 @@ let startX, startY;
 let endX, endY;
 
 const mouseUp = (event) => {
+    currentTeam = playerColour;
     if (event.target.id != "pcs") {
         let piece = document.getElementById(event.target.id);
         piece.style.zIndex = "100";
@@ -280,7 +281,8 @@ function newGame() {
     currentTeam = 0;
     initPieces();
     paintChessboard();
-    socket.emit("sendMessage", getCookie("username") + "has joined the game!", "system", "0");
+    chat.innerHTML = "";
+    socket.emit("sendMessage", getCookie("username") + " has joined the game!", "<span class='msg-username'>system</span>", "0");
 }
   
 function joinGame() {
@@ -293,7 +295,8 @@ function joinGame() {
     paintChessboard();
     var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?id=' + code;
     window.history.pushState({path:newurl},'',newurl);
-    socket.emit("sendMessage", getCookie("username") + "has joined the game!", "system", "0");
+    chat.innerHTML = "";
+    socket.emit("sendMessage", getCookie("username") + " has joined the game!", "<span class='msg-username'>system</span>", "0");
 }
 
 function joinGameUrl(code)
@@ -305,7 +308,8 @@ function joinGameUrl(code)
     paintChessboard();
     var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?id=' + code;
     window.history.pushState({path:newurl},'',newurl);
-    socket.emit("sendMessage", getCookie("username") + "has joined the game!", "system", "0");
+    chat.innerHTML = "";
+    socket.emit("sendMessage", getCookie("username") + " has joined the game!", "<span class='msg-username'>system</span>", "0");
 }
 
 function move()
