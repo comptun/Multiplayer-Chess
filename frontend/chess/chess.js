@@ -134,7 +134,6 @@ let startX, startY;
 let endX, endY;
 
 const mouseUp = (event) => {
-    currentTeam = playerColour;
     if (event.target.id != "pcs") {
         let piece = document.getElementById(event.target.id);
         piece.style.zIndex = "100";
